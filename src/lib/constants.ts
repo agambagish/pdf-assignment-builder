@@ -1,31 +1,27 @@
-import type { InstituteFields } from "./types";
-
-export const INSTITUTES: InstituteFields = {
-  FIEM_MAKAUT: {
-    fullName: {
-      label: "Full Name",
-      placeholder: "{{FULL_NAME}}",
-      inputPlaceholder: "e.g. John Doe",
-    },
-    rollNo: {
-      label: "Roll Number",
-      placeholder: "{{ROLL_NUMBER}}",
-      inputPlaceholder: "e.g. 16800123180",
-    },
-    paperName: {
-      label: "Paper Name",
-      placeholder: "{{PAPER_NAME}}",
-      inputPlaceholder: "e.g. Data Structure & Algorithm",
-    },
-    paperCode: {
-      label: "Paper Code",
-      placeholder: "{{PAPER_CODE}}",
-      inputPlaceholder: "e.g. PCC-CS301",
-    },
-    semester: {
-      label: "Semester",
-      placeholder: "{{SEMESTER}}",
-      inputPlaceholder: "e.g. 1st Sem",
-    },
+export const steps = [
+  {
+    title: "Step 1: Select Template",
+    description: "Choose your college or institution template",
+    buttonText: "Continue",
   },
-};
+  {
+    title: "Step 2: Fill Your Details",
+    description: "Enter your information for the frontpage",
+    buttonText: "Generate Frontpage",
+  },
+  {
+    title: "Step 3: Upload Files",
+    description: "Add images or a PDF to your assignment",
+    buttonText: "Continue",
+  },
+  {
+    title: "Step 4: Arrange Pages",
+    description: "Drag to reorder your pages",
+    buttonText: "Continue",
+  },
+  {
+    title: "Step 5: Export PDF",
+    description: "Download your final assignment",
+    buttonText: "Export PDF",
+  },
+] as const;

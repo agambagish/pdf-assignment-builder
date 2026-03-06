@@ -13,7 +13,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { INSTITUTES } from "@/lib/constants";
+import { steps } from "@/lib/constants";
+import { INSTITUTES } from "@/lib/institutes";
 import type { AssignmentBuilderSchema } from "@/lib/schemas";
 import { assignmentBuilderSchema } from "@/lib/schemas";
 
@@ -22,34 +23,6 @@ import { ExportStep } from "./export-step";
 import { FileUploaderStep } from "./file-uploader-step";
 import { FillDetailsStep } from "./fill-details-step";
 import { SelectTemplateStep } from "./select-template-step";
-
-const steps = [
-  {
-    title: "Step 1: Select Template",
-    description: "Choose your college or institution template",
-    buttonText: "Continue",
-  },
-  {
-    title: "Step 2: Fill Your Details",
-    description: "Enter your information for the frontpage",
-    buttonText: "Generate Frontpage",
-  },
-  {
-    title: "Step 3: Upload Files",
-    description: "Add images or a PDF to your assignment",
-    buttonText: "Continue",
-  },
-  {
-    title: "Step 4: Arrange Pages",
-    description: "Drag to reorder your pages",
-    buttonText: "Continue",
-  },
-  {
-    title: "Step 5: Export PDF",
-    description: "Download your final assignment",
-    buttonText: "Export PDF",
-  },
-] as const;
 
 interface Props {
   currentStep: number;

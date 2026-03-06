@@ -3,7 +3,7 @@ import { Controller } from "react-hook-form";
 
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { INSTITUTES } from "@/lib/constants";
+import { INSTITUTES } from "@/lib/institutes";
 import type {
   AssignmentBuilderSchema,
   InstituteTemplateSchema,

@@ -3,7 +3,7 @@ import { Controller } from "react-hook-form";
 
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { INSTITUTES } from "@/lib/constants";
+import { INSTITUTES } from "@/lib/institutes";
 import type { AssignmentBuilderSchema } from "@/lib/schemas";
 
 interface Props {
