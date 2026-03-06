@@ -17,25 +17,30 @@ interface Props {
 export function FillDetailsStep({ form, instituteId }: Props) {
   return (
     <div className="grid grid-cols-2 gap-4">
-      {Object.entries(INSTITUTES[instituteId]).map(([field, { label }], i) => (
-        <Controller
-          key={i.toString()}
-          control={form.control}
-          name={field as FieldPath<InstituteTemplateSchema>}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-              <Input
-                {...field}
-                id={field.name}
-                aria-invalid={fieldState.invalid}
-                value={field.value ?? ""}
-              />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-        />
-      ))}
+      {Object.entries(INSTITUTES[instituteId]).map(
+        ([field, { label, inputPlaceholder }], i) => (
+          <Controller
+            key={i.toString()}
+            control={form.control}
+            name={field as FieldPath<InstituteTemplateSchema>}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
+                <Input
+                  {...field}
+                  id={field.name}
+                  aria-invalid={fieldState.invalid}
+                  value={field.value ?? ""}
+                  placeholder={inputPlaceholder}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+        ),
+      )}
     </div>
   );
 }

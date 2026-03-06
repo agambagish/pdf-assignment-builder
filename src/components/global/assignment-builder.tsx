@@ -1,6 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { FieldPath } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { INSTITUTES } from "@/lib/constants";
 import type { AssignmentBuilderSchema } from "@/lib/schemas";
 import { assignmentBuilderSchema } from "@/lib/schemas";
 
@@ -51,8 +53,20 @@ export function AssignmentBuilder({ currentStep, setCurrentStep }: Props) {
     setCurrentStep((v) => v - 1);
   }
 
-  function onContinue() {
+  async function onContinue() {
     if (currentStep === 0 && !instituteId) return;
+
+    if (
+      currentStep === 1 &&
+      !(await form.trigger(
+        Object.keys(
+          INSTITUTES[instituteId],
+        ) as FieldPath<AssignmentBuilderSchema>[],
+        { shouldFocus: true },
+      ))
+    )
+      return;
+
     setCurrentStep((v) => v + 1);
   }
 

@@ -1,7 +1,5 @@
 import z from "zod";
 
-import { SEMESTERS } from "./constants";
-
 export const baseSchema = z.object({
   images: z.array(z.instanceof(File)),
 });
@@ -13,7 +11,7 @@ export const instituteTemplateSchema = z.discriminatedUnion("instituteId", [
     rollNo: z.string().min(5),
     paperName: z.string().nonempty(),
     paperCode: z.string().nonempty(),
-    semester: z.enum(SEMESTERS),
+    semester: z.string().nonempty(),
   }),
 ]);
 

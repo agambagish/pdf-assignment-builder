@@ -8,6 +8,7 @@ export type InstituteFields = {
     [K in keyof Omit<InstituteSchema<I>, "instituteId">]: {
       label: string;
       placeholder: string;
+      inputPlaceholder?: string;
     };
   };
 };
