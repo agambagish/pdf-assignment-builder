@@ -1,5 +1,3 @@
-"use client";
-
 import type { Dispatch, SetStateAction } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -10,10 +8,12 @@ interface Props {
 }
 
 export function StepIndicator({ currentStep, setCurrentStep }: Props) {
+  const steps = [0, 1, 2, 3, 4];
+
   return (
     <div className="flex justify-center">
       <div className="mb-8 flex gap-2 overflow-x-auto pb-2">
-        {[1, 2, 3, 4, 5].map((step) => (
+        {steps.map((step) => (
           <div key={step} className="flex min-w-max items-center gap-2">
             <Button
               variant={currentStep >= step ? "secondary" : "outline"}
@@ -21,11 +21,13 @@ export function StepIndicator({ currentStep, setCurrentStep }: Props) {
               className="h-10 w-10 rounded-full p-0"
               onClick={() => step <= currentStep && setCurrentStep(step)}
             >
-              {step}
+              {step + 1}
             </Button>
-            {step < 5 && (
+            {step < steps.length - 1 && (
               <div
-                className={`h-1 w-8 ${currentStep >= step + 1 ? "bg-primary" : "bg-muted"}`}
+                className={`h-1 w-8 ${
+                  currentStep >= step + 1 ? "bg-primary" : "bg-muted"
+                }`}
               />
             )}
           </div>

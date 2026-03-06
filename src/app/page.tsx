@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 
-import { SelectTemplateStep } from "@/components/global/select-template-step";
+import { AssignmentBuilder } from "@/components/global/assignment-builder";
 import { StepIndicator } from "@/components/global/step-indicator";
 
 export default function () {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
 
   return (
     <div className="min-h-screen p-4 md:p-8">
@@ -23,9 +23,10 @@ export default function () {
           currentStep={currentStep}
           setCurrentStep={setCurrentStep}
         />
-        {currentStep === 1 && (
-          <SelectTemplateStep setCurrentStep={setCurrentStep} />
-        )}
+        <AssignmentBuilder
+          currentStep={currentStep}
+          setCurrentStep={setCurrentStep}
+        />
       </div>
     </div>
   );
