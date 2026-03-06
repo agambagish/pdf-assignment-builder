@@ -18,6 +18,7 @@ import type { AssignmentBuilderSchema } from "@/lib/schemas";
 import { assignmentBuilderSchema } from "@/lib/schemas";
 
 import { ArrangePagesStep } from "./arrange-pages-step";
+import { ExportStep } from "./export-step";
 import { FileUploaderStep } from "./file-uploader-step";
 import { FillDetailsStep } from "./fill-details-step";
 import { SelectTemplateStep } from "./select-template-step";
@@ -42,6 +43,11 @@ const steps = [
     title: "Step 4: Arrange Pages",
     description: "Drag to reorder your pages",
     buttonText: "Continue",
+  },
+  {
+    title: "Step 5: Export PDF",
+    description: "Download your final assignment",
+    buttonText: "Export PDF",
   },
 ] as const;
 
@@ -83,10 +89,21 @@ export function AssignmentBuilder({ currentStep, setCurrentStep }: Props) {
       return;
 
     if (
-      currentStep === 2 &&
+      (currentStep === 2 || currentStep === 3) &&
       !(await form.trigger("files", { shouldFocus: true }))
     )
       return;
+
+    if (
+      currentStep === 4 &&
+      !(await form.trigger("exportTitle", { shouldFocus: true }))
+    )
+      return;
+
+    if (currentStep === steps.length - 1) {
+      form.handleSubmit(onSubmit)();
+      return;
+    }
 
     setCurrentStep((v) => v + 1);
   }
@@ -105,6 +122,7 @@ export function AssignmentBuilder({ currentStep, setCurrentStep }: Props) {
           )}
           {currentStep === 2 && <FileUploaderStep form={form} />}
           {currentStep === 3 && <ArrangePagesStep form={form} />}
+          {currentStep === 4 && <ExportStep form={form} />}
         </form>
       </CardContent>
       <CardFooter className="flex gap-4">

@@ -22,6 +22,7 @@ export const baseSchema = z.object({
 
       return false;
     }, "Upload either multiple images OR a single PDF"),
+  exportTitle: z.string().min(3),
 });
 
 export const instituteTemplateSchema = z.discriminatedUnion("instituteId", [

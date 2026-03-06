@@ -15,21 +15,29 @@ export function ArrangePagesStep({ form }: Props) {
     <Controller
       control={form.control}
       name="files"
-      render={({ field, fieldState }) => (
-        <Field data-invalid={fieldState.invalid}>
-          <PageOrganizer
-            value={[
-              {
-                id: "frontpage",
-                type: "frontpage",
-              },
-              ...field.value,
-            ]}
-            onChange={field.onChange}
-          />
-          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-        </Field>
-      )}
+      render={({ field, fieldState }) => {
+        // biome-ignore lint/suspicious/noExplicitAny: _
+        function onReorder(newPages: any[]) {
+          const filesOnly = newPages.filter((p) => p.type !== "frontpage");
+          field.onChange(filesOnly);
+        }
+
+        return (
+          <Field data-invalid={fieldState.invalid}>
+            <PageOrganizer
+              value={[
+                {
+                  id: "frontpage",
+                  type: "frontpage",
+                },
+                ...field.value,
+              ]}
+              onChange={onReorder}
+            />
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        );
+      }}
     />
   );
 }
