@@ -1,10 +1,13 @@
-import type { AssignmentBuilderSchema } from "./schemas";
+import type { InstituteTemplateSchema } from "./schemas";
 
-type InstituteSchema<I extends AssignmentBuilderSchema["instituteId"]> =
-  Extract<AssignmentBuilderSchema, { instituteId: I }>;
+type InstituteSchema<I extends InstituteTemplateSchema["instituteId"]> =
+  Extract<InstituteTemplateSchema, { instituteId: I }>;
 
 export type InstituteFields = {
-  [I in AssignmentBuilderSchema["instituteId"]]: Array<
-    keyof Omit<InstituteSchema<I>, "instituteId">
-  >;
+  [I in InstituteTemplateSchema["instituteId"]]: {
+    [K in keyof Omit<InstituteSchema<I>, "instituteId">]: {
+      label: string;
+      placeholder: string;
+    };
+  };
 };

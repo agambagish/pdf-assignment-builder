@@ -15,6 +15,7 @@ import {
 import type { AssignmentBuilderSchema } from "@/lib/schemas";
 import { assignmentBuilderSchema } from "@/lib/schemas";
 
+import { FillDetailsStep } from "./fill-details-step";
 import { SelectTemplateStep } from "./select-template-step";
 
 const steps = [
@@ -22,6 +23,11 @@ const steps = [
     title: "Step 1: Select Template",
     description: "Choose your college or institution template",
     buttonText: "Continue",
+  },
+  {
+    title: "Step 2: Fill Your Details",
+    description: "Enter your information for the frontpage",
+    buttonText: "Generate Frontpage",
   },
 ] as const;
 
@@ -40,6 +46,11 @@ export function AssignmentBuilder({ currentStep, setCurrentStep }: Props) {
 
   function onSubmit(values: AssignmentBuilderSchema) {}
 
+  function onBack() {
+    if (currentStep === 0) return;
+    setCurrentStep((v) => v - 1);
+  }
+
   function onContinue() {
     if (currentStep === 0 && !instituteId) return;
     setCurrentStep((v) => v + 1);
@@ -54,10 +65,13 @@ export function AssignmentBuilder({ currentStep, setCurrentStep }: Props) {
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           {currentStep === 0 && <SelectTemplateStep form={form} />}
+          {currentStep === 1 && (
+            <FillDetailsStep form={form} instituteId={instituteId} />
+          )}
         </form>
       </CardContent>
       <CardFooter className="flex gap-4">
-        <Button variant="outline" className="flex-1">
+        <Button variant="outline" className="flex-1" onClick={onBack}>
           Back
         </Button>
         <Button className="flex-1" onClick={onContinue}>
