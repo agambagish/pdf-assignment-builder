@@ -17,6 +17,7 @@ import { INSTITUTES } from "@/lib/constants";
 import type { AssignmentBuilderSchema } from "@/lib/schemas";
 import { assignmentBuilderSchema } from "@/lib/schemas";
 
+import { ArrangePagesStep } from "./arrange-pages-step";
 import { FileUploaderStep } from "./file-uploader-step";
 import { FillDetailsStep } from "./fill-details-step";
 import { SelectTemplateStep } from "./select-template-step";
@@ -35,6 +36,11 @@ const steps = [
   {
     title: "Step 3: Upload Files",
     description: "Add images or a PDF to your assignment",
+    buttonText: "Continue",
+  },
+  {
+    title: "Step 4: Arrange Pages",
+    description: "Drag to reorder your pages",
     buttonText: "Continue",
   },
 ] as const;
@@ -98,6 +104,7 @@ export function AssignmentBuilder({ currentStep, setCurrentStep }: Props) {
             <FillDetailsStep form={form} instituteId={instituteId} />
           )}
           {currentStep === 2 && <FileUploaderStep form={form} />}
+          {currentStep === 3 && <ArrangePagesStep form={form} />}
         </form>
       </CardContent>
       <CardFooter className="flex gap-4">

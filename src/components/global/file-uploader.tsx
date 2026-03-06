@@ -28,16 +28,36 @@ export function FileUploader({ value = [], onChange }: Props) {
 
   function handleFiles(files: FileList) {
     setError("");
+
+    const existingImages = value.filter((f) => f.type === "image");
+    const existingPDFs = value.filter((f) => f.type === "pdf");
+
     const newPages: PageItem[] = [];
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
+
       const isPDF = file.type === "application/pdf";
       const isImage = file.type.startsWith("image/");
 
       if (!isPDF && !isImage) {
-        setError("Only images (JPG, PNG) and PDFs are allowed");
-        continue;
+        setError("Only images and PDFs are allowed");
+        return;
+      }
+
+      if (isPDF && (existingImages.length > 0 || newPages.length > 0)) {
+        setError("You cannot upload a PDF with images");
+        return;
+      }
+
+      if (isImage && existingPDFs.length > 0) {
+        setError("Remove the PDF before uploading images");
+        return;
+      }
+
+      if (isPDF && existingPDFs.length > 0) {
+        setError("Only one PDF can be uploaded");
+        return;
       }
 
       const url = URL.createObjectURL(file);
@@ -53,9 +73,7 @@ export function FileUploader({ value = [], onChange }: Props) {
       });
     }
 
-    if (newPages.length) {
-      onChange?.([...value, ...newPages]);
-    }
+    onChange?.([...value, ...newPages]);
   }
 
   function handleDrag(e: React.DragEvent) {
@@ -131,9 +149,9 @@ export function FileUploader({ value = [], onChange }: Props) {
               <Card key={file.id} className="relative p-4">
                 <Button
                   variant="ghost"
-                  size="icon-sm"
+                  size="sm"
                   onClick={() => removeFile(file.id)}
-                  className="absolute top-2 right-2 hover:bg-destructive/10"
+                  className="absolute top-2 right-2 h-6 w-6 p-0 hover:bg-destructive/10"
                 >
                   <X className="text-destructive" />
                 </Button>

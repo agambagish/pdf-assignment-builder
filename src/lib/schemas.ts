@@ -1,17 +1,27 @@
 import z from "zod";
 
 export const baseSchema = z.object({
-  files: z.array(
-    z.object({
-      id: z.string(),
-      type: z.enum(["image", "pdf"]),
-      data: z.object({
-        url: z.string(),
-        imageName: z.string().optional(),
-        pdfUrl: z.string().optional(),
+  files: z
+    .array(
+      z.object({
+        id: z.string(),
+        type: z.enum(["image", "pdf"]),
+        data: z.object({
+          url: z.string(),
+          imageName: z.string().optional(),
+          pdfUrl: z.string().optional(),
+        }),
       }),
-    }),
-  ),
+    )
+    .refine((files) => {
+      const images = files.filter((f) => f.type === "image");
+      const pdfs = files.filter((f) => f.type === "pdf");
+
+      if (images.length > 0 && pdfs.length === 0) return true;
+      if (pdfs.length === 1 && images.length === 0) return true;
+
+      return false;
+    }, "Upload either multiple images OR a single PDF"),
 });
 
 export const instituteTemplateSchema = z.discriminatedUnion("instituteId", [
