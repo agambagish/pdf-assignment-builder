@@ -1,7 +1,17 @@
 import z from "zod";
 
 export const baseSchema = z.object({
-  images: z.array(z.instanceof(File)),
+  files: z.array(
+    z.object({
+      id: z.string(),
+      type: z.enum(["image", "pdf"]),
+      data: z.object({
+        url: z.string(),
+        imageName: z.string().optional(),
+        pdfUrl: z.string().optional(),
+      }),
+    }),
+  ),
 });
 
 export const instituteTemplateSchema = z.discriminatedUnion("instituteId", [

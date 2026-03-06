@@ -17,6 +17,7 @@ import { INSTITUTES } from "@/lib/constants";
 import type { AssignmentBuilderSchema } from "@/lib/schemas";
 import { assignmentBuilderSchema } from "@/lib/schemas";
 
+import { FileUploaderStep } from "./file-uploader-step";
 import { FillDetailsStep } from "./fill-details-step";
 import { SelectTemplateStep } from "./select-template-step";
 
@@ -31,6 +32,11 @@ const steps = [
     description: "Enter your information for the frontpage",
     buttonText: "Generate Frontpage",
   },
+  {
+    title: "Step 3: Upload Files",
+    description: "Add images or a PDF to your assignment",
+    buttonText: "Continue",
+  },
 ] as const;
 
 interface Props {
@@ -42,6 +48,9 @@ export function AssignmentBuilder({ currentStep, setCurrentStep }: Props) {
   const form = useForm<AssignmentBuilderSchema>({
     resolver: zodResolver(assignmentBuilderSchema),
     mode: "onChange",
+    defaultValues: {
+      files: [],
+    },
   });
 
   const instituteId = form.watch("instituteId");
@@ -67,6 +76,12 @@ export function AssignmentBuilder({ currentStep, setCurrentStep }: Props) {
     )
       return;
 
+    if (
+      currentStep === 2 &&
+      !(await form.trigger("files", { shouldFocus: true }))
+    )
+      return;
+
     setCurrentStep((v) => v + 1);
   }
 
@@ -82,6 +97,7 @@ export function AssignmentBuilder({ currentStep, setCurrentStep }: Props) {
           {currentStep === 1 && (
             <FillDetailsStep form={form} instituteId={instituteId} />
           )}
+          {currentStep === 2 && <FileUploaderStep form={form} />}
         </form>
       </CardContent>
       <CardFooter className="flex gap-4">
